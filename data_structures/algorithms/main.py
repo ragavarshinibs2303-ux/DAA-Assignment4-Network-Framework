@@ -75,3 +75,38 @@ def run_assignment_4_module_1():
 
 if __name__ == "__main__":
     run_assignment_4_module_1()
+from algorithms.shortest_path import floyd_warshall
+
+def run_assignment_4_module_2():
+    print("\n==================================================")
+    print("Module 2: All-Pairs Cost Analysis (Floyd-Warshall)")
+    print("==================================================")
+
+    # Let's define a small network of 4 major port zones / hubs
+    INF = float('inf')
+    # Indices: 0: Gate Hub, 1: Container Yard A, 2: Berth Terminal, 3: AGV Depot
+    port_network = [
+        [  0,   3, INF,   7],
+        [INF,   0,   2, INF],
+        [  5, INF,   0,   1],
+        [  2, INF, INF,   0]
+    ]
+
+    nodes = len(port_network)
+    print("Computing all-pairs shortest paths between port zones...")
+    all_pairs_costs = floyd_warshall(nodes, port_network)
+
+    print("\nShortest Cost Matrix:")
+    zone_names = ["Gate Hub", "Yard A", "Berth", "AGV Depot"]
+    print(f"{'':<12}" + "".join([f"{name:>12}" for name in zone_names]))
+    
+    for i in range(nodes):
+        row_str = f"{zone_names[i]:<12}"
+        for j in range(nodes):
+            val = all_pairs_costs[i][j]
+            row_str += f"{val:12}" if val != INF else f"{'INF':12}"
+        print(row_str)
+
+if __name__ == "__main__":
+    # You can keep Module 1 call here too
+    run_assignment_4_module_2()
